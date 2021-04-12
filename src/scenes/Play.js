@@ -3,7 +3,7 @@ class Play extends Phaser.Scene{
         super("playScene");
     }
     preload() {
-        //adds spritess
+        //adds sprites
         this.load.image('starfield', './assets/starfield.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('rocket', './assets/rocket.png');
@@ -131,9 +131,9 @@ class Play extends Phaser.Scene{
         // explodes at ship position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
-        boom.on('animationcomplete', () => {    // callback after anim completes
+        boom.on('animationcomplete', () => {    // calls animation
           ship.reset();                         // reset ship position
-          ship.alpha = 1;                       // make ship visible again
+          ship.alpha = 1;                       // ship visible
           boom.destroy();                       // remove explosion sprite
         });    
         //score add and repaint
