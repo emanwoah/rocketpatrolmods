@@ -2,18 +2,10 @@
 class Rocket extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame) {
       super(scene, x, y, texture, frame);
-  
-      // add object to existing scene
-      scene.add.existing(this);
-  
-      //track rocket firing
-      this.isFiring = false;
-  
-      //move speed
-      this.moveSpeed = 1.75;
-  
-      //add rocket sounds
-      this.sfxRocket = scene.sound.add('sfx_rocket');
+      scene.add.existing(this); // add to existing scene
+      this.isFiring = false; // track rocket
+      this.moveSpeed = 1.75; // movement speed
+      this.sfxRocket = scene.sound.add('sfx_rocket'); // add sound effect
     }
   
     update() {
@@ -40,7 +32,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
             this.y = game.config.height - borderUISize - borderPadding;
         }
       }
-  
+      
       //reset rocket
       reset() {
           this.isFiring = false;

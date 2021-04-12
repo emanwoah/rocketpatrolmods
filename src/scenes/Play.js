@@ -46,7 +46,7 @@ class Play extends Phaser.Scene{
         this.p1Score = 0;
         // display score
         let scoreConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Arial',
             fontSize: '28px',
             backgroundColor: '#F3B141',
             color: '#843605',
@@ -81,12 +81,10 @@ class Play extends Phaser.Scene{
     update() {
         // move starfield
         this.starfield.tilePositionX -= 4;
-
           // restarts game
             if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
                 this.scene.restart();
             }
-
         if(!this.gameOver) {
             // moves player / shoot
             this.p1Rocket.update();
@@ -96,7 +94,6 @@ class Play extends Phaser.Scene{
             this.ship02.update();
             this.ship03.update();
         }
-        
         // check collisions
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.shipExplode(this.ship03);
@@ -127,7 +124,7 @@ class Play extends Phaser.Scene{
             return false;
         }
     }
-
+    
     shipExplode(ship) {
         // temp hide ship
         ship.alpha = 0;
