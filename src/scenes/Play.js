@@ -23,6 +23,7 @@ class Play extends Phaser.Scene{
 
         // intialize rocket
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
+        this.p2Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
 
         // adds 3 spaceships
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
@@ -31,10 +32,18 @@ class Play extends Phaser.Scene{
         
 
         // define controls & keys
+        // rocket 1 controls
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        //rocket 2 controls
+        keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
+        keyJ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.J);
+        keyL = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.L);
+
+
 
         // config animations
         this.anims.create({
@@ -42,7 +51,7 @@ class Play extends Phaser.Scene{
         frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
         frameRate: 30});
 
-        //initialize score
+        //initialize rocket 1 score
         this.p1Score = 0;
         // display score
         let scoreConfig = {
@@ -58,6 +67,23 @@ class Play extends Phaser.Scene{
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+
+        //initialize rocket 2 score
+        this.p2Score = 0;
+        //display rocket 2 score
+        let scoreConfig = {
+            fontFamily: 'Arial',
+            fontSize: '28px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding: {
+            top: 5,
+            bottom: 5,
+            },
+            fixedWidth: 100
+        }
+        this.scoreLeft = this.add.text(borderUISize - borderPadding, borderUISize - borderPadding*2, this.p2Score, scoreConfig);
 
         // 60 sec Clock
         scoreConfig.fixedWidth = 0;
@@ -88,13 +114,14 @@ class Play extends Phaser.Scene{
         if(!this.gameOver) {
             // moves player / shoot
             this.p1Rocket.update();
+            this.p2Rocket.update();
 
             // update the 3 spaceships
             this.ship01.update();
             this.ship02.update();
             this.ship03.update();
         }
-        // check collisions
+        // rocket 1 check collision
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.shipExplode(this.ship03);
             this.p1Rocket.reset();
@@ -107,8 +134,23 @@ class Play extends Phaser.Scene{
             this.shipExplode(this.ship01);
             this.p1Rocket.reset();
         }
+        
+        // rocket 2 check collision
 
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+        if(this.checkCollision(this.p2Rocket, this.ship03)) {
+            this.shipExplode(this.ship03);
+            this.p2Rocket.reset();
+        }
+        if (this.checkCollision(this.p2Rocket, this.ship02)) {
+            this.shipExplode(this.ship02);
+            this.p2Rocket.reset();
+        }
+        if (this.checkCollision(this.p2Rocket, this.ship01)) {
+            this.shipExplode(this.ship01);
+            this.p2Rocket.reset();
+        }
+
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyA)) {
             this.scene.start("menuScene");
         }
     }
@@ -138,7 +180,10 @@ class Play extends Phaser.Scene{
         });    
         //score add and repaint
         this.p1Score += ship.points;
-        this.scoreLeft.text = this.p1Score;   
+        this.scoreLeft.text = this.p1Score;
+
+        this.p2Score += ship.points;
+        this.scoreRight.text = this.p2Score;
 
         this.sound.play('sfx_explosion');
       }

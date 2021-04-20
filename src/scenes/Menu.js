@@ -27,15 +27,18 @@ class Menu extends Phaser.Scene{
 
         //show menu text
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 
-            'ROCKET PATROL', menuConfig).setOrigin(0.5);
+            'CO-OP FIRE PATROL', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 
-            'Use <--> arrow to Move and (F) to fire', menuConfig).setOrigin(0.5);
+            'Player 1 Controls: (A,D) to move, (F) to fire.', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2),game.config.height/2,
+            'Player 2 Controls: (J,L) to move, (H) to fire.', menuConfig.setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 
             'Press <- for Easy mode or -> for Hard mode', menuConfig).setOrigin(0.5);
+        
 
-                // define keys
+        // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     }
